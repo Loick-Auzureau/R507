@@ -1,0 +1,28 @@
+meta {
+  name: PUT srv
+  type: http
+  seq: 9
+}
+
+put {
+  url: 127.0.0.1:8000/srv/0
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "id": 2,
+    "name": "test",
+    "ip": "55.55.55.55",
+    "fonction": "trst",
+    "nbr_cpu": 64,
+    "RAM": 512,
+    "disk": 20
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

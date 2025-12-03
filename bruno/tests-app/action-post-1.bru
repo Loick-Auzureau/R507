@@ -1,0 +1,18 @@
+meta {
+  name: Action POST 1
+  type: http
+  seq: 1
+}
+
+post {
+  url: 127.0.0.1:8000/action
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name": "Get LINUX Memory",
+    "script_path": ""
+  }
+}

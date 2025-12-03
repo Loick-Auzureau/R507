@@ -1,0 +1,29 @@
+meta {
+  name: srv POST
+  type: http
+  seq: 7
+}
+
+post {
+  url: 127.0.0.1:8000/srv
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "id": 2,
+    "name": "test",
+    "ip": "127.0.1.0",
+    "fonction": "test",
+    "nbr_cpu": 64,
+    "RAM": 512,
+    "disk": 20
+  }
+  
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
