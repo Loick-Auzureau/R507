@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import FileResponse
 import json
-import subprocess , platform
+import subprocess, platform
 from models.host import *
 from models.action import *
 from models.indicator import *
@@ -194,4 +194,5 @@ def ping_host(srv_id: int):
         if not srv: raise HTTPException(404)
         count_flag = "-n" if platform.system().lower().startswith("win") else "-c"
         p = subprocess.run(["ping", count_flag, "1", srv.ip], capture_output=True)
+        #p = subprocess.run(["ping", srv.ip], capture_output=True)
         return {"reachable": p.returncode == 0}
