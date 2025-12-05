@@ -1,3 +1,17 @@
+## Docker
+
+Si vous voulez containeriser l'application, voici des commandes utiles (PowerShell) :
+
+Construire l'image depuis la racine du projet :
+```pwsh
+docker build -t r507-app .
+```
+
+Lancer le conteneur et mapper le port 8000 :
+```pwsh
+docker run --rm -p 8000:8000 r507-app
+```
+
 # R507 — Monitoring / Supervision API
 
 A small FastAPI-based monitoring backend for managing hosts, servers, indicators and actions. It provides a REST API to create/read/update/delete hosts and servers, manage indicators, run basic reachability checks (ping) and store data via a SQLModel/SQLite database.
@@ -30,6 +44,23 @@ If you don't have a `requirements.txt`, the project uses FastAPI, Uvicorn and SQ
 ```pwsh
 python -m pip install fastapi uvicorn sqlmodel
 ```
+
+
+## Simple Web Interface
+
+A minimalist web interface is available in `serveur/static/index.html`:
+
+- Title "R507 API"
+- Three buttons: "Get Stats", "List Hosts", and "List Servers"
+- Displays the JSON result
+
+How to use:
+1. Start the FastAPI server (see below).
+2. Open `http://localhost:8000/static/index.html` in your browser.
+3. Click the buttons to query the API:
+   - **Get Stats**: fetch `/stats` endpoint
+   - **List Hosts**: fetch `/hosts` endpoint
+   - **List Servers**: fetch `/srvs` endpoint
 
 ## Run locally
 
@@ -94,3 +125,13 @@ The `bruno/tests-app/` folder contains `.bru` request collections and example re
 - The FastAPI application entry point is `serveur/main.py`.
 - Models live in `models/` and follow SQLModel patterns.
 - Actions scripts can be added under `serveur/actions/` and referenced from the API.
+
+## Contributing
+If you want to contribute, please open an issue or a pull request. Add tests or update existing ones in `bruno/tests-app/` when relevant.
+
+## License
+Add a license file to the repository and update this section.
+
+---
+
+If you want, I can tweak the README (project name, license, or add examples). Tell me what to change.

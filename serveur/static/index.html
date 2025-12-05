@@ -1,0 +1,41 @@
+
+<html>
+<head>
+	<title>R507 API</title>
+	<style>
+		body { font-family: serif; }
+		button { margin: 5px; }
+		pre { background: #fafafa; padding: 10px; border: 1px solid #ccc; }
+	</style>
+</head>
+<body>
+	<h1>R507 API</h1>
+	<button onclick="getStats()">Get Stats</button>
+	<button onclick="listHosts()">List Hosts</button>
+	<button onclick="listServers()">List Servers</button>
+	<pre id="output">{}</pre>
+	<script>
+		function getStats() {
+			fetch('/stats')
+				.then(r => r.json())
+				.then(data => {
+					document.getElementById('output').textContent = JSON.stringify(data, null, 2);
+				});
+		}
+		function listHosts() {
+			fetch('/hosts')
+				.then(r => r.json())
+				.then(data => {
+					document.getElementById('output').textContent = JSON.stringify(data, null, 2);
+				});
+		}
+		function listServers() {
+			fetch('/srvs')
+				.then(r => r.json())
+				.then(data => {
+					document.getElementById('output').textContent = JSON.stringify(data, null, 2);
+				});
+		}
+	</script>
+</body>
+</html>

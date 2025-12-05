@@ -1,5 +1,6 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 import json
 import subprocess, platform
 from models.host import *
@@ -8,11 +9,22 @@ from models.indicator import *
 from models.server import *
 from database import configure_db, engine
 from sqlmodel import Session, select
+import os
 
 async def on_start_up():
     configure_db()
 
 app = FastAPI(on_startup=[on_start_up])
+
+# Serve static files (HTML, CSS, JS)
+static_dir = os.path.join(os.path.dirname(__file__), "static")
+if os.path.exists(static_dir):
+    app.mount("/static", StaticFiles(directory=static_dir), name="static")
+
+@app.get("/")
+def root():
+    """Serve the main HTML dashboard."""
+    return FileResponse(os.path.join(static_dir, "index.html"), media_type="text/html")
 
 @app.get("/hosts")
 def read_hosts() -> list[Host]:
@@ -196,3 +208,18 @@ def ping_host(srv_id: int):
         p = subprocess.run(["ping", count_flag, "1", srv.ip], capture_output=True)
         #p = subprocess.run(["ping", srv.ip], capture_output=True)
         return {"reachable": p.returncode == 0}
+
+
+@app.get("/stats")
+def get_stats() -> dict:
+    with Session(engine) as session:
+        hosts_count = len(session.exec(select(Host)).all())
+        srvs_count = len(session.exec(select(Server)).all())
+        actions_count = len(session.exec(select(Action)).all())
+        indicators_count = len(session.exec(select(Indicator_host)).all())
+        return {
+            "hosts": hosts_count,
+            "servers": srvs_count,
+            "actions": actions_count,
+            "indicators": indicators_count,
+        }
